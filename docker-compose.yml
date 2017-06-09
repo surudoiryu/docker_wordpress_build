@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  app:
+    container_name: wordpress-app
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    environment:
+      WORDPRESS_DB_PASSWORD: my_pass
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_NAME: dockerpress
+      #WORDPRESS_TABLE_PREFIX: ""
+      #WORDPRESS_AUTH_KEY: ""
+      #WORDPRESS_SECURE_AUTH_KEY: ""
+      #WORDPRESS_LOGGED_IN_KEY: ""
+      #WORDPRESS_NONCE_KEY: ""
+      #WORDPRESS_AUTH_SALT: ""
+      #WORDPRESS_SECURE_AUTH_SALT: ""
+      #WORDPRESS_LOGGED_IN_SALT: ""
+      #WORDPRESS_NONCE_SALT: ""
+    depends_on: 
+      - db
+    restart: always
+  db:
+    container_name: wordpress-db
+    image: mysql:5.7
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my_pass
+      MYSQL_DATABASE: dockerpress
+      MYSQL_USER: root
+      MYSQL_PASSWORD: my_pass
+    restart: always
+
+volumes:
+  dbdata:
